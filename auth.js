@@ -85,13 +85,19 @@ async function checkAuthStatus() {
 }
 
 function redirectToDashboard(role) {
-    const inPages = window.location.pathname.includes('/pages/');
-    const base = inPages ? '' : 'pages/';
     switch (role) {
-        case 'student': window.location.href = base + 'student-dashboard.html'; break;
-        case 'teacher': window.location.href = base + 'teacher-dashboard.html'; break;
-        case 'admin':   window.location.href = base + 'admin-dashboard.html';   break;
-        default: showAlert('Invalid user role', 'error');
+        case 'student': 
+            window.location.href = 'student-dashboard.html'; 
+            break;
+        case 'teacher': 
+            window.location.href = 'teacher-dashboard.html'; 
+            break;
+        case 'admin':   
+            window.location.href = 'admin-dashboard.html'; 
+            break;
+        default: 
+            showAlert('Invalid user role', 'error');
+    
     }
 }
 
