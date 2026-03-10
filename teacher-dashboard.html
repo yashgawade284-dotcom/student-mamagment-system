@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Student Management System</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>SMS</h2>
+            </div>
+            
+            <div class="sidebar-user">
+                <div class="user-avatar" id="userAvatar">T</div>
+                <div class="user-info">
+                    <h4 id="userName">Teacher</h4>
+                    <p>Teacher</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#attendance" class="nav-item" onclick="showAttendanceModal()">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Mark Attendance</span>
+                </a>
+                <a href="#marks" class="nav-item" onclick="showMarksModal()">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Upload Marks</span>
+                </a>
+                <a href="#students" class="nav-item" onclick="showStudentsList()">
+                    <i class="fas fa-users"></i>
+                    <span>Student List</span>
+                </a>
+                <a href="#announcements" class="nav-item" onclick="showAnnouncementModal()">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item" onclick="Auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Teacher Dashboard</h1>
+                <div class="header-actions">
+                    <select id="classSelect" class="form-group" style="width: 200px; margin: 0;">
+                        <option value="">Select Class</option>
+                    </select>
+                </div>
+            </header>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-icon blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="totalStudents">0</h3>
+                        <p>Total Students</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon green">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="avgAttendance">0%</h3>
+                        <p>Average Attendance</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon orange">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="avgMarks">0</h3>
+                        <p>Class Average</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon purple">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="passRate">0%</h3>
+                        <p>Pass Rate</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Class Attendance</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Pass/Fail Distribution</h3>
+                    </div>
+                    <div class="chart-container small">
+                        <canvas id="passFailChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Marks Distribution</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="marksDistChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Monthly Attendance Trend</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="attendanceTrendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Performance Table -->
+            <div class="chart-card" style="margin-top: 20px;">
+                <div class="chart-header">
+                    <h3>Student Performance</h3>
+                    <button class="btn btn-sm btn-primary" onclick="showStudentsList()">
+                        <i class="fas fa-list"></i> View All
+                    </button>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table class="data-table" id="studentTable">
+                        <thead>
+                            <tr>
+                                <th>Roll No</th>
+                                <th>Name</th>
+                                <th>Attendance</th>
+                                <th>Average Marks</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTableBody">
+                            <!-- Students will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mark Attendance Modal -->
+    <div class="modal-overlay" id="attendanceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Mark Attendance</h3>
+                <button class="modal-close" onclick="closeModal('attendanceModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="attendanceDate" value="">
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="attendanceSubject">
+                        <option value="">Select Subject</option>
+                    </select>
+                </div>
+                <div id="attendanceStudentList">
+                    <!-- Student list will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('attendanceModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveAttendance()">Save Attendance</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Marks Modal -->
+    <div class="modal-overlay" id="marksModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Upload Marks</h3>
+                <button class="modal-close" onclick="closeModal('marksModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Exam</label>
+                    <select id="marksExam">
+                        <option value="">Select Exam</option>
+                    </select>
+                </div>
+                <div id="marksStudentList">
+                    <!-- Student list will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('marksModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveMarks()">Save Marks</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Announcement Modal -->
+    <div class="modal-overlay" id="announcementModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Create Announcement</h3>
+                <button class="modal-close" onclick="closeModal('announcementModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="annTitle" placeholder="Enter announcement title">
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea id="annContent" rows="4" placeholder="Enter announcement content"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <select id="annPriority">
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                        <option value="urgent">Urgent</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('announcementModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveAnnouncement()">Post Announcement</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/teacher-dashboard.js"></script>
+</body>
+</html>

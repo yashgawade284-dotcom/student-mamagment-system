@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Student Management System</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>SMS</h2>
+            </div>
+            
+            <div class="sidebar-user">
+                <div class="user-avatar" id="userAvatar">S</div>
+                <div class="user-info">
+                    <h4 id="userName">Student</h4>
+                    <p>Student</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#attendance" class="nav-item" onclick="showSection('attendance')">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Attendance</span>
+                </a>
+                <a href="#marks" class="nav-item" onclick="showSection('marks')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Marks</span>
+                </a>
+                <a href="#fees" class="nav-item" onclick="showSection('fees')">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Fees</span>
+                </a>
+                <a href="#profile" class="nav-item" onclick="showSection('profile')">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item" onclick="Auth.logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Student Dashboard</h1>
+                <div class="header-actions">
+                    <button class="notification-btn" onclick="showAnnouncements()">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notifBadge">3</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Summary Cards -->
+            <div class="summary-cards">
+                <div class="summary-card">
+                    <div class="card-icon blue">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="attendancePercent">0%</h3>
+                        <p>Attendance</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon green">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="avgMarks">0</h3>
+                        <p>Average Marks</p>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon orange">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>Fee Status</h3>
+                        <span class="card-status" id="feeStatus">Pending</span>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-icon purple">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3 id="totalSubjects">0</h3>
+                        <p>Total Subjects</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Subject-wise Marks</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="marksChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Attendance Overview</h3>
+                    </div>
+                    <div class="chart-container small">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Performance Trend</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements Section -->
+            <div class="announcements-section">
+                <div class="section-header">
+                    <h3><i class="fas fa-bullhorn"></i> Recent Announcements</h3>
+                    <a href="#" class="btn btn-sm btn-secondary">View All</a>
+                </div>
+                <div class="announcement-list" id="announcementList">
+                    <!-- Announcements will be loaded dynamically -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Chatbot Widget -->
+    <div class="chatbot-widget">
+        <div class="chatbot-container" id="chatbotContainer">
+            <div class="chatbot-header">
+                <div>
+                    <h4>AI Assistant</h4>
+                    <span>Ask me anything!</span>
+                </div>
+                <button class="chatbot-close" onclick="toggleChatbot()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot">
+                    Hello! 👋 I'm your virtual assistant. I can help you with:
+                    • Attendance queries
+                    • Marks information
+                    • Fee status
+                    • Exam schedules
+                    • Teacher details
+                    
+                    What would you like to know?
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatInput" placeholder="Type your message..." 
+                       onkeypress="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+        <button class="chatbot-toggle" onclick="toggleChatbot()">
+            <i class="fas fa-robot"></i>
+        </button>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script src="../js/student-dashboard.js"></script>
+</body>
+</html>
