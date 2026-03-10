@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System - Welcome</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Landing Page Styles */
+        .landing-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            padding: 20px;
+        }
+        
+        .landing-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .landing-header i {
+            font-size: 64px;
+            color: #4f46e5;
+            margin-bottom: 20px;
+        }
+        
+        .landing-header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 10px;
+        }
+        
+        .landing-header p {
+            font-size: 18px;
+            color: #94a3b8;
+        }
+        
+        .role-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        .role-card {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid #334155;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .role-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .role-card.student:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+        }
+        
+        .role-card.teacher:hover {
+            border-color: #22c55e;
+            box-shadow: 0 20px 40px rgba(34, 197, 94, 0.3);
+        }
+        
+        .role-card.admin:hover {
+            border-color: #a855f7;
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
+        }
+        
+        .role-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 36px;
+        }
+        
+        .role-card.student .role-icon {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+        }
+        
+        .role-card.teacher .role-icon {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .role-card.admin .role-icon {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+        }
+        
+        .role-card h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #f8fafc;
+            margin-bottom: 10px;
+        }
+        
+        .role-card p {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+        
+        .role-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .role-card.student .role-btn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+        
+        .role-card.teacher .role-btn {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+        
+        .role-card.admin .role-btn {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+        }
+        
+        .role-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .landing-footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .landing-header h1 {
+                font-size: 28px;
+            }
+            
+            .role-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="landing-header">
+            <i class="fas fa-graduation-cap"></i>
+            <h1>Student Management System</h1>
+            <p>Select your role to continue</p>
+        </div>
+        
+        <div class="role-cards">
+            <!-- Student Login Card -->
+            <a href="student-login.html" class="role-card student">
+                <div class="role-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Student</h2>
+                <p>View attendance, marks, fees, and access your academic records</p>
+                <span class="role-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login as Student
+                </span>
+            </a>
+            
+            <!-- Teacher Login Card -->
+            <a href="teacher-login.html" class="role-card teacher">
+                <div class="role-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h2>Teacher</h2>
+                <p>Mark attendance, upload marks, and manage your classes</p>
+                <span class="role-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login as Teacher
+                </span>
+            </a>
+            
+            <!-- Admin Login Card -->
+            <a href="admin-login.html" class="role-card admin">
+                <div class="role-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h2>Administrator</h2>
+                <p>Manage users, fees, subjects, and generate reports</p>
+                <span class="role-btn">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login as Admin
+                </span>
+            </a>
+        </div>
+        
+        <div class="landing-footer">
+            <p>&copy; 2024 Student Management System. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

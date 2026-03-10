@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login - Student Management System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Student Login Specific Styles */
+        .login-container.student {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+        }
+        
+        .login-box.student {
+            border-top: 4px solid #3b82f6;
+        }
+        
+        .login-logo.student i {
+            color: #3b82f6;
+            font-size: 52px;
+        }
+        
+        .login-logo.student h1 {
+            color: #3b82f6;
+        }
+        
+        .btn-student {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+        
+        .btn-student:hover {
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .login-links a {
+            color: #3b82f6;
+        }
+        
+        .login-links a:hover {
+            color: #60a5fa;
+        }
+        
+        .form-group input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .input-icon {
+            color: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container student">
+        <div class="login-box student">
+            <div class="login-logo student">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Student Login</h1>
+                <p>Access your academic records</p>
+            </div>
+            
+            <div id="alertBox" class="alert"></div>
+            
+            <form id="studentLoginForm">
+                <div class="form-group">
+                    <label for="username">
+                        <i class="fas fa-user input-icon"></i> Student ID or Email
+                    </label>
+                    <input type="text" id="username" name="username" placeholder="Enter your student ID or email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock input-icon"></i> Password
+                    </label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-student">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login as Student
+                </button>
+            </form>
+            
+            <div class="login-links">
+                <p>Are you a <a href="teacher-login.html">Teacher</a> or <a href="admin-login.html">Admin</a>?</p>
+            </div>
+            
+            <div class="demo-credentials">
+                <p><i class="fas fa-info-circle"></i> Demo: student1 / student123</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        // Student login form handler
+        document.getElementById('studentLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            await login(username, password);
+        });
+    </script>
+</body>
+</html>
